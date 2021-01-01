@@ -1,0 +1,40 @@
+# Additional system environment variables
+cmplr=Intel # GNU | Intel
+export PATH=$PATH:$HOME/local/bin
+export PATH=$PATH:$HOME/local/lib/gmt
+export PATH=$PATH:$HOME/local/lib/python
+#
+export PYTHONPATH="$PYTHONPATH":"$HOME"/Learning/Learning/Python/modules
+#
+export MODULEPATH=
+export MODULEPATH="$MODULEPATH":"$HOME"/local/lib/module/tools
+export MODULEPATH="$MODULEPATH":"$HOME"/local/lib/module/libraries
+export MODULEPATH="$MODULEPATH":"$HOME"/local/lib/module/packs
+#
+source /opt/intel/bin/compilervars.sh intel64 -platform linux
+
+# Personal system variables
+export libgnc=' -L/usr/lib/x86_64-linux-gnu -lnetcdf -lnetcdff -I/usr/include '
+export libinc=' -L/public/software/netCDF-Intel/lib -lnetcdf -lnetcdff -I/public/software/netCDF-Intel/include '
+
+# Some aliases
+alias l.="ls -d .*"
+alias rm="rm -i"
+alias mv="mv -i"
+alias cp="cp -i"
+alias cls="printf '\033c'"
+alias mrun="matlab -nodesktop -nosplash"
+alias myifort="ifort -debug full -O0 -multiple-processes -fpp -warn declarations -warn unused -warn interfaces -fpe0 -traceback -check bounds -check uninit -check format -check stack"
+alias bckp="tar -cvpzf ./LearningWork.bk.xxxxxx.tgz ~/.bashrc ~/.bash_aliases ~/.vimrc ~/Learning/Learning ~/Work --exclude=/home/tche/Work/Temp ~/bin ~/lib"
+alias o="opan"
+alias x="exit"
+alias backuphome="rsync -avz --delete --exclude-from=/home/tche/local/lib/shell/rsync.exc ~/ /media/tche/F6FC23DEFC23983F/Backup/tche"
+alias backuphome2="rsync -arvzp --delete --exclude-from=/home/tche/local/lib/shell/rsync.exc ~/ /media/tche/F6FC23DEFC23983F/Backup/tche"
+alias vmclear="rm -rf /data/UbtWin/System\ Volume\ Information /data/Work/System\ Volume\ Information"
+alias gdb="gdb -tui -q"
+
+# Other
+module load typora
+module load miniconda
+
+# vim:ft=sh
