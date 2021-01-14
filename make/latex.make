@@ -1,6 +1,7 @@
 TEXC := xelatex
 MAIN := report
-LFLAGS := -synctex=1 -interaction=nonstopmode
+OUTDIR := build
+LFLAGS := -synctex=1 -interaction=nonstopmode -outdir=$(OUTDIR)
 CPATH :=
 
 DIRS := sources
@@ -28,12 +29,16 @@ else
   MKFLAGS :=
 endif
 
-all : tex2pdf view
+all : prep tex2pdf view
+
+prep :
+	ln -fs $(OUTDIR)/$(MAIN).pdf
+	mkdir -p $(OUTDIR)
 
 tex2pdf :
 	$(CPATH)$(TEXC) $(LFLAGS) $(MAIN)
 
-full :
+full : prep
 	$(CPATH)latexmk $(MKFLAGS) $(LFLAGS) $(MAIN)
 
 view :
@@ -43,10 +48,10 @@ backup :
 	tar -zpcvf Backup.tar.gz $(MAIN).tex $(foreach d,$(DIRS),$(d)/*.tex) figures
 
 clean :
-	-rm -f $(foreach s,$(SUFS),$(MAIN).$(s))
-	-rm -f $(foreach d,$(DIRS),$(foreach s,$(SUFS),$(d)/*.$(s)))
+	-rm -f  $(foreach s,$(SUFS),$(OUTDIR)/$(MAIN).$(s))
+	-rm -rf $(foreach d,$(DIRS),$(OUTDIR)/$(d))
 
 clear : clean
-	-rm -f $(MAIN).pdf
+	-rm -f $(OUTDIR)/$(MAIN).pdf
 
 # vim:ft=make noet
