@@ -11,6 +11,7 @@ ver_mpfr=3.1.4
 debug=on
 
 prefix="/public/software/gcc-${ver_gcc%.*}"
+options=
 
 export CC=`which gcc`
 export CXX=`which g++`
