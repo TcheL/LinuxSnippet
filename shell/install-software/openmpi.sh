@@ -10,8 +10,10 @@ set -e
 # set -x
 
 ver=4.1.0
+sha256sum=228467c3dd15339d9b26cf26a291af3ee7c770699c5e8a1b3ad786f9ae78140a
 cmplr=gnu
-todir="${HOME}/software/openmpi-${ver}-${cmplr}"
+
+prefix="${HOME}/software/openmpi-${ver}-${cmplr}"
 options=
 
 if [ "${cmplr}" == "gnu" ]; then
@@ -28,6 +30,13 @@ fi
 # download
 wget https://download.open-mpi.org/release/open-mpi/v${ver%.*}/openmpi-${ver}.tar.gz
 
+# check
+echo "${sha256sum} openmpi-${ver}.tar.gz" | sha256sum -c > /dev/null
+if [ $? -ne 0 ]; then
+  echo ">> Failed to check openmpi-${ver}.tar.gz!"
+  exit 1
+fi
+
 # unzip
 tar -zpxvf openmpi-${ver}.tar.gz
 
@@ -35,7 +44,7 @@ tar -zpxvf openmpi-${ver}.tar.gz
 cd openmpi-${ver}
 mkdir mybuild
 cd mybuild
-../configure --prefix=${todir} ${options}
+../configure --prefix=${prefix} ${options}
 yon=
 
 # install

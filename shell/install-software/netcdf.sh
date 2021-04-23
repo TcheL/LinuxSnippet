@@ -14,7 +14,7 @@ ver_f=4.5.3
 ver_cxx=4.3.1
 
 cmplr=gnu
-todir="${HOME}/software/netcdf-${ver_c}-${cmplr}"
+prefix="${HOME}/software/netcdf-${ver_c}-${cmplr}"
 options=
 
 if [ "${cmplr}" == "gnu" ]; then
@@ -33,7 +33,7 @@ function toinstall() {
   cd netcdf-${1}-${2}
   mkdir mybuild
   cd mybuild
-  ../configure --prefix=${todir} ${options} ${3}
+  ../configure --prefix=${prefix} ${options} ${3}
   yon=
 
   # -do
