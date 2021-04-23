@@ -17,26 +17,6 @@ cmplr=gnu
 todir="${HOME}/software/netcdf-${ver_c}-${cmplr}"
 options=
 
-function install() {
-  # prepare
-  cd netcdf-${1}-${2}
-  mkdir mybuild
-  cd mybuild
-  ../configure --prefix=${todir} ${options} ${3}
-  yon=
-
-  # install
-  echo "================================================================================"
-  read -p ">> Ensure to start installing ${1}? [Y/n]: " -t 30 yon
-  if [ "${yon}" == "Y" ]; then
-    make -j
-    make install
-  else
-    echo "Nothing to be installed!"
-  fi
-  cd ../../
-}
-
 if [ "${cmplr}" == "gnu" ]; then
   export CC=`which gcc`
   export FC=`which gfortran`
@@ -47,6 +27,33 @@ elif [ "${cmplr}" == "intel" ]; then
   export CXX=`which icpc`
 fi
 
+#===============================================================================
+function toinstall() {
+  # -pre
+  cd netcdf-${1}-${2}
+  mkdir mybuild
+  cd mybuild
+  ../configure --prefix=${todir} ${options} ${3}
+  yon=
+
+  # -do
+  echo "================================================================================"
+  read -p ">> Ensure to start installing ${1}? [Y/n]: " -t 30 yon
+  if [ "${yon}" == "Y" ]; then
+    make -j
+    make install
+  else
+    echo "Nothing to be installed!"
+  fi
+  cd ../../
+
+  # -post
+  echo "================================================================================"
+  read -p ">> Finish to install netcdf-${1}-${2}. Press any key to continue: "
+  echo "================================================================================"
+}
+
+#===============================================================================
 # download
 wget https://github.com/Unidata/netcdf-c/archive/v${ver_c}.tar.gz -O netcdf-c-${ver_c}.tar.gz
 wget https://github.com/Unidata/netcdf-fortran/archive/v${ver_f}.tar.gz -O netcdf-fortran-${ver_f}.tar.gz

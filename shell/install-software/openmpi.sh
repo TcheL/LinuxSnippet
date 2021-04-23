@@ -24,6 +24,7 @@ elif [ "${cmplr}" == "intel" ]; then
   export CXX=`which icpc`
 fi
 
+#===============================================================================
 # download
 wget https://download.open-mpi.org/release/open-mpi/v${ver%.*}/openmpi-${ver}.tar.gz
 
@@ -35,6 +36,7 @@ cd openmpi-${ver}
 mkdir mybuild
 cd mybuild
 ../configure --prefix=${todir} ${options}
+yon=
 
 # install
 echo "================================================================================"
@@ -45,4 +47,9 @@ if [ "${yon}" == "Y" ]; then
 else
   echo "Nothing to be installed!"
 fi
+
+# epilogue
+echo "================================================================================"
+echo ">> Finish to install openmpi-${ver}. \\(^.^)/"
+echo "================================================================================"
 

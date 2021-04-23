@@ -35,12 +35,12 @@ function tocheck() {
 }
 
 function toinstall() {
+  # -pre
   cd ${1}
   rm -rf mybuild
   mkdir mybuild
   cd mybuild
   ../configure --prefix=${prefix} ${options} ${2}
-
   if [ -n "${debug}" ]; then
     yon=
     echo "================================================================================"
@@ -49,6 +49,7 @@ function toinstall() {
     yon=Y
   fi
 
+  # -do
   if [ "${yon}" == "Y" ]; then
     make -j
     make install
@@ -56,6 +57,7 @@ function toinstall() {
     echo ">> Nothing to be installed!"
   fi
 
+  # -post
   if [ -n "${debug}" ]; then
     echo "================================================================================"
     read -p ">> Finish to install ${1}. Press any key to continue: "

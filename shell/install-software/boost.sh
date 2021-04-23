@@ -9,35 +9,40 @@
 set -e
 # set -x
 
-ver_boost=1.76.0
+ver=1.76.0
 
-prefix="${HOME}/software/boost-${ver_boost%.*}"
+prefix="${HOME}/software/boost-${ver%.*}"
 options=
 
 PYTHON=`which python`
 ICUDIR=
 export PATH=/path/to/MPI/bin:${PATH}
 
-ver_boost_=${ver_boost//./_}
-wget https://dl.bintray.com/boostorg/release/${ver_boost}/source/boost_${ver_boost_}.tar.gz
+#===============================================================================
+# download
+ver_=${ver//./_}
+wget https://dl.bintray.com/boostorg/release/${ver}/source/boost_${ver_}.tar.gz
 
-tar -zpxvf boost_${ver_boost_}.tar.gz
+# unzip
+tar -zpxvf boost_${ver_}.tar.gz
 
-cd boost_${ver_boost_}
-
+# prepare
+cd boost_${ver_}
 ./bootstrap.sh --with-python=${PYTHON} --with-icu=${ICUDIR} ${options}
 echo "using mpi ;" >> project-config.jam
-
 yon=
+
+# install
 echo "================================================================================"
-read -p ">> Ensure to start installing boost-${ver_boost}? [Y/n]: " -t 30 yon
+read -p ">> Ensure to start installing boost-${ver}? [Y/n]: " -t 30 yon
 if [ "${yon}" == "Y" ]; then
   ./b2 --prefix=${prefix} install
 else
   echo ">> Nothing to be installed!"
 fi
 
+# epilogue
 echo "================================================================================"
-echo ">> Finish to install boost_${ver_boost}. \\(^.^)/"
+echo ">> Finish to install boost_${ver}. \\(^.^)/"
 echo "================================================================================"
 

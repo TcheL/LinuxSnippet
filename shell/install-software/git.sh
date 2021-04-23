@@ -9,29 +9,34 @@
 set -e
 # set -x
 
-ver_git=2.31.1
+ver=2.31.1
 
-prefix="${HOME}/software/git-${ver_git%.*}"
+prefix="${HOME}/software/git-${ver%.*}"
 
 export CC=`which gcc`
 
-wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-${ver_git}.tar.gz
+#===============================================================================
+# download
+wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-${ver}.tar.gz
 wget https://mirrors.edge.kernel.org/pub/software/scm/git/sha256sums.asc
 
-cat sha256sums.asc | grep " git-${ver_git}.tar.gz$" | sha256sum -c > /dev/null
+# check
+cat sha256sums.asc | grep " git-${ver}.tar.gz$" | sha256sum -c > /dev/null
 if [ $? -ne 0 ]; then
-  echo ">> Failed to check git-${ver_git}.tar.gz !"
+  echo ">> Failed to check git-${ver}.tar.gz !"
   exit 1
 fi
 
-tar -zpxvf git-${ver_git}.tar.gz
+# unzip
+tar -zpxvf git-${ver}.tar.gz
 
-cd git-${ver_git}
-
+# prepare
+cd git-${ver}
 yon=
-echo "================================================================================"
-read -p ">> Ensure to start installing git-${ver_git}? [Y/n]: " -t 30 yon
 
+# install
+echo "================================================================================"
+read -p ">> Ensure to start installing git-${ver}? [Y/n]: " -t 30 yon
 if [ "${yon}" == "Y" ]; then
   make -C ../ prefix=${prefix} all doc
   make -C ../ prefix=${prefix} install install-doc install-html
@@ -39,7 +44,8 @@ else
   echo ">> Nothing to be installed!"
 fi
 
+# epilogue
 echo "================================================================================"
-echo ">> Finish to install git-${ver_git}. \\(^.^)/"
+echo ">> Finish to install git-${ver}. \\(^.^)/"
 echo "================================================================================"
 
