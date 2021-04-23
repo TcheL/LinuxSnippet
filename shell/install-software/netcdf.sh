@@ -1,4 +1,10 @@
 #!/bin/bash
+#===============================================================================
+# To install netcdf-{c, fortran, cxx}.
+#
+# Author: Tche L., USTC, seistche@gmail.com
+# Created at: Thu 18 Mar 2021 18:12:52 PM CST
+#-------------------------------------------------------------------------------
 
 set -e
 # set -x
@@ -8,7 +14,7 @@ ver_f=4.5.3
 ver_cxx=4.3.1
 
 cmplr=gnu
-todir="/public/software/netcdf-${ver_c}-${cmplr}"
+todir="${HOME}/software/netcdf-${ver_c}-${cmplr}"
 options=
 
 function install() {

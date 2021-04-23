@@ -1,11 +1,17 @@
 #!/bin/bash
+#===============================================================================
+# To install openmpi.
+#
+# Author: Tche L., USTC, seistche@gmail.com
+# Created at: Thu 18 Mar 2021 16:35:21 PM CST
+#-------------------------------------------------------------------------------
 
 set -e
 # set -x
 
 ver=4.1.0
 cmplr=gnu
-todir="/public/software/openmpi-${ver}-${cmplr}"
+todir="${HOME}/software/openmpi-${ver}-${cmplr}"
 options=
 
 if [ "${cmplr}" == "gnu" ]; then

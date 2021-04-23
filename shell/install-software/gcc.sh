@@ -1,4 +1,10 @@
 #!/bin/bash
+#===============================================================================
+# To install gcc.
+#
+# Author: Tche L., USTC, seistche@gmail.com
+# Created at: Wed 21 Apr 2021 11:55:08 AM CST
+#-------------------------------------------------------------------------------
 
 set -e
 # set -x
@@ -10,7 +16,7 @@ ver_mpfr=3.1.4
 
 debug=on
 
-prefix="/public/software/gcc-${ver_gcc%.*}"
+prefix="${HOME}/software/gcc-${ver_gcc%.*}"
 options=
 
 export CC=`which gcc`
@@ -49,7 +55,6 @@ function toinstall() {
   else
     echo ">> Nothing to be installed!"
   fi
-  cd ../../
 
   if [ -n "${debug}" ]; then
     echo "================================================================================"
