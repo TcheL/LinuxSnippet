@@ -21,7 +21,7 @@ export PATH=/path/to/MPI/bin:${PATH}
 #===============================================================================
 # download
 ver_=${ver//./_}
-wget https://dl.bintray.com/boostorg/release/${ver}/source/boost_${ver_}.tar.gz
+wget https://boostorg.jfrog.io/artifactory/main/release/${ver}/source/boost_${ver_}.tar.gz
 
 # unzip
 tar -zpxvf boost_${ver_}.tar.gz
