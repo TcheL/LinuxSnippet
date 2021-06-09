@@ -1,49 +1,38 @@
 #!/bin/bash
+
 #===============================================================================
-# To install cmake.
+# To install eigen.
 #
 # Author: Tche L., USTC, seistche@gmail.com
-# Created at: Fri 23 Apr 2021 02:45:54 PM CST
+# Created at: Wed 09 Jun 2021 12:19:34 PM CST
 #-------------------------------------------------------------------------------
 
 set -e
 # set -x
 
-ver=3.20.1
+ver=3.3.9
 
-prefix="${HOME}/software/cmake-${ver%.*}"
+prefix="${HOME}/software/eigen-${ver%.*}"
 options=
-ncores=4
-
-export CC=`which gcc`
-export CXX=`which g++`
 
 #===============================================================================
 # download
-wget https://github.com/Kitware/CMake/releases/download/v${ver}/cmake-${ver}.tar.gz
-wget https://github.com/Kitware/CMake/releases/download/v${ver}/cmake-${ver}-SHA-256.txt -O cmake-SHA256.txt
-
-# check
-cat cmake-SHA256.txt | grep " cmake-${ver}.tar.gz$" | sha256sum -c > /dev/null
-if [ $? -ne 0 ]; then
-  echo ">> Failed to check cmake-${ver}.tar.gz!"
-  exit 1
-fi
+wget https://gitlab.com/libeigen/eigen/-/archive/${ver}/eigen-${ver}.tar.gz
 
 # unzip
-tar -zpxvf cmake-${ver}.tar.gz
+tar -zpxvf eigen-${ver}.tar.gz
 
 # prepare
-cd cmake-${ver}
+cd eigen-${ver}
 mkdir mybuild
 cd mybuild
-../bootstrap --parallel=${ncores} --prefix=${prefix} ${options}
+cmake ../ -DCMAKE_INSTALL_PREFIX=${prefix} \
+  -DINCLUDE_INSTALL_DIR=include/ ${options}
 yon=
 
 # install
-gmake
 echo "================================================================================"
-read -p ">> Ensure to start installing cmake-${ver}? [Y/n]: " -t 30 yon
+read -p ">> Ensure to start installing eigen-${ver}? [Y/n]: " -t 30 yon
 if [ "${yon}" == "Y" ]; then
   make -j
   make install
@@ -53,6 +42,6 @@ fi
 
 # epilogue
 echo "================================================================================"
-echo ">> Finish to install cmake-${ver}. \\(^.^)/"
+echo ">> Finish to install eigen-${ver}. \\(^.^)/"
 echo "================================================================================"
 
