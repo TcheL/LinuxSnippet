@@ -3,7 +3,7 @@
 # Created at: Wed 31 Dec 2020 11:05:36 AM CST
 #-------------------------------------------------------------------------------
 
-CUDAHOME=/data/software/cuda-10.0
+CUDAHOME := /data/software/cuda-10.0
 
 CXX := g++
 CCU := $(CUDAHOME)/bin/nvcc
@@ -14,11 +14,11 @@ OBJDIR := obj
 BINDIR := bin
 
 TypeDouble :=
-CPPMACRO1 :=
-CPPMACRO2 := ON
-CPPMACRO3 := ON
+CPP_MACRO_DEF1 :=
+CPP_MACRO_DEF2 := ON
+CPP_MACRO_DEF3 := ON
 
-DFLAG_LIST = TypeDouble CPPMACRO1 CPPMACRO2 CPPMACRO3
+DFLAG_LIST := TypeDouble CPP_MACRO_DEF1 CPP_MACRO_DEF2 CPP_MACRO_DEF3
 
 LIBS := 
 INCS := 
@@ -27,12 +27,9 @@ CUDAINC := -I$(CUDAHOME)/include
 
 LIBFLAGS := $(LIBS) $(CUDALIB)
 INCFLAGS := -I$(SRCDIR) $(INCS)
+CCUFLAGS := $(CUDAINC) $(if $(TypeDouble),-arch=sm_60,-arch=sm_35)
 
-CXXFLAGS := $(INCFLAGS) $(CFLAGS)
-CCUFLAGS := $(INCFLAGS) $(CFLAGS) $(CUDAINC)
-CCUFLAGS := $(CCUFLAGS) $(if $(TypeDouble),-arch=sm_60,-arch=sm_35)
-
-DFLAGS := $(foreach flag,$(DFLAG_LIST),$(if $($(flag)),-D$(flag),)) $(DFLAGS)
+DFLAGS := $(foreach f,$(DFLAG_LIST),$(if $($(f)),-D$(f),))
 DFLAGS := $(strip $(DFLAGS))
 
 SRC_CXX := class1.cpp class2.cpp class3.cpp
@@ -63,10 +60,10 @@ clean:
 	-rm -f $(OBJDIR)/cxx/*.o
 	-rm -f $(OBJDIR)/cuda/*.o
 
-$(OBJDIR)/cxx/%.o : $(SRCDIR)/%.cpp
-	$(CXX) $(DFLAGS) $(CXXFLAGS) -c $< -o $@
+$(OBJDIR)/cxx/%.o: $(SRCDIR)/%.cpp
+	$(CXX) $(CFLAGS) $(DFLAGS) $(INCFLAGS) -c $< -o $@
 
-$(OBJDIR)/cuda/%.o : $(SRCDIR)/%.cu
-	$(CCU) $(DFLAGS) $(CCUFLAGS) -c $< -o $@
+$(OBJDIR)/cuda/%.o: $(SRCDIR)/%.cu
+	$(CCU) $(CFLAGS) $(DFLAGS) $(INCFLAGS) $(CCUFLAGS) -c $< -o $@
 
 # vim:ft=make noet
