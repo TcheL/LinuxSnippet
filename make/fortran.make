@@ -4,9 +4,9 @@
 #-------------------------------------------------------------------------------
 
 FC := gfortran
-CLFS := -O2
+CLFS :=
 
-CFLAGS := 
+CFLAGS :=
 LFALGS :=
 
 SRCDIR := src
@@ -23,8 +23,8 @@ CPP_MACRO_VAL1 := _VALUE
 DFLAG_LIST := CPP_MACRO_DEF1 CPP_MACRO_DEF2 CPP_MACRO_DEF3
 VFLAG_LIST := CPP_MACRO_VAL1
 
-DFLAGS := $(foreach f, $(DFLAG_LIST), $(if $($(f)), -D$(f),))
-VFLAGS := $(foreach f, $(VFLAG_LIST), $(if $($(f)), -D$(f)=$($(f)),))
+DFLAGS := $(foreach f, $(DFLAG_LIST), $(if $($(f)), -D$(f), ))
+VFLAGS := $(foreach f, $(VFLAG_LIST), $(if $($(f)), -D$(f)=$($(f)), ))
 FCEXE := $(notdir $(FC))
 
 ifeq ($(FCEXE), gfortran)
@@ -43,12 +43,15 @@ ifdef STATIC
 endif
 
 ifdef DEBUG
+  CLFS += -O0
   CFLAGS += -g
   ifeq ($(FCEXE), gfortran)
     CLFS += -Wall -fcheck=all -ffpe-trap=invalid,zero,overflow
   else ifeq ($(FCEXE), ifort)
     CLFS += -warn all -check all -fpe:0
   endif
+else
+  CLFS += -O2
 endif
 
 CFLAGS += -I$(OBJDIR)
@@ -60,7 +63,7 @@ SRC_MOD := module1.F90 module2.F90
 SRC_PRO := program.F90
 EXE_PRO := exe
 
-OBJ_MOD := $(foreach f,$(SRC_MOD),$(OBJDIR)/$(f:.F90=.o))
+OBJ_MOD := $(foreach f, $(SRC_MOD), $(OBJDIR)/$(f:.F90=.o))
 OBJ_PRO := $(OBJDIR)/$(SRC_PRO:.F90=.o)
 
 all : prep link
