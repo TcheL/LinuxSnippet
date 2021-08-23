@@ -6,6 +6,8 @@
 FC := gfortran
 CLFS :=
 
+LIBPATH :=
+
 CFLAGS :=
 LFALGS :=
 
@@ -26,6 +28,8 @@ VFLAG_LIST := CPP_MACRO_VAL1
 DFLAGS := $(foreach f, $(DFLAG_LIST), $(if $($(f)), -D$(f), ))
 VFLAGS := $(foreach f, $(VFLAG_LIST), $(if $($(f)), -D$(f)=$($(f)), ))
 FCEXE := $(notdir $(FC))
+
+CFLAGS += $(DFLAGS) $(VFLAGS) -I$(OBJDIR)
 
 ifeq ($(FCEXE), gfortran)
   CFLAGS += -J$(OBJDIR)
@@ -54,8 +58,11 @@ else
   CLFS += -O2
 endif
 
-CFLAGS += -I$(OBJDIR)
-CFLAGS += $(DFLAGS) $(VFLAGS)
+ifdef LIBPATH
+  CFLAGS += -I$(LIBPATH)/include
+  LFLAGS += -L$(LIBPATH)/lib -llib
+endif
+
 CFLAGS := $(strip $(CFLAGS))
 LFLAGS := $(strip $(LFLAGS))
 
@@ -74,7 +81,7 @@ prep:
 link: $(BINDIR)/$(EXE_PRO)
 
 $(BINDIR)/$(EXE_PRO): $(OBJ_MOD) $(OBJ_PRO)
-	$(FC) $(LFLAGS) $(CLFS) $^ -o $@
+	$(FC) $(CLFS) $^ $(LFLAGS) -o $@
 
 clear: clean
 	-rm -f $(BINDIR)/*
@@ -86,6 +93,6 @@ vpath %.F90 $(SRCDIR)
 .SUFFIXES: .F90 .o
 
 $(OBJDIR)/%.o: %.F90
-	$(FC) $(CFLAGS) $(CLFS) $(SRCDIR)/$(<F) -c -o $@
+	$(FC) $(CLFS) $(CFLAGS) $(SRCDIR)/$(<F) -c -o $@
 
 # vim:ft=make noet

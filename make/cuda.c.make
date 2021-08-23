@@ -8,6 +8,7 @@ CUDAHOME := /data/software/cuda-10.0
 CXX := g++
 CCU := $(CUDAHOME)/bin/nvcc
 CFLAGS := -O2
+LFLAGS :=
 
 SRCDIR := src
 OBJDIR := obj
@@ -51,7 +52,7 @@ prep:
 link: $(BINDIR)/$(EXE_PRO)
 
 $(BINDIR)/$(EXE_PRO): $(OBJ_CXX) $(OBJ_CCU) $(OBJ_PRO)
-	$(CXX) $(LIBFLAGS) $^ -o $@
+	$(CXX) $(LFLAGS) $^ $(LIBFLAGS) -o $@
 
 clear: clean
 	-rm -f $(BINDIR)/*
