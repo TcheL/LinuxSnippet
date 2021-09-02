@@ -63,11 +63,12 @@ function toinstall() {
     read -p ">> Finish to install ${1}. Press any key to continue: "
     echo "================================================================================"
   fi
+  cd ../../
 }
 
 #===============================================================================
 # prepare
-mkdir to_install_gcc
+mkdir -p to_install_gcc
 cd to_install_gcc
 
 # download
@@ -91,6 +92,7 @@ tar -jpxvf mpfr-${ver_mpfr}.tar.bz2
 tar -zpxvf mpc-${ver_mpc}.tar.gz
 
 # install
+export LD_LIBRARY_PATH=${prefix}/lib:$LD_LIBRARY_PATH
 toinstall gmp-${ver_gmp}
 toinstall mpfr-${ver_mpfr} "--with-gmp=${prefix}"
 toinstall mpc-${ver_mpc} "--with-gmp=${prefix} --with-mpfr=${prefix}"
