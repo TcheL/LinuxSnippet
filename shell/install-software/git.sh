@@ -17,8 +17,10 @@ export CC=`which gcc`
 
 #===============================================================================
 # download
-wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-${ver}.tar.gz
-wget https://mirrors.edge.kernel.org/pub/software/scm/git/sha256sums.asc
+wget --no-check-certificate \
+  https://mirrors.edge.kernel.org/pub/software/scm/git/git-${ver}.tar.gz
+wget --no-check-certificate \
+  https://mirrors.edge.kernel.org/pub/software/scm/git/sha256sums.asc
 
 # check
 cat sha256sums.asc | grep " git-${ver}.tar.gz$" | sha256sum -c > /dev/null
@@ -38,6 +40,8 @@ yon=
 echo "================================================================================"
 read -p ">> Ensure to start installing git-${ver}? [Y/n]: " -t 30 yon
 if [ "${yon}" == "Y" ]; then
+  mkdir -p mybuild
+  cd mybuild
   make -C ../ prefix=${prefix} all doc
   make -C ../ prefix=${prefix} install install-doc install-html
 else

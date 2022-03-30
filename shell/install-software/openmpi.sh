@@ -14,7 +14,7 @@ sha256sum=228467c3dd15339d9b26cf26a291af3ee7c770699c5e8a1b3ad786f9ae78140a
 cmplr=gnu
 
 prefix="${HOME}/software/openmpi-${ver}-${cmplr}"
-options=
+options="--with-ucx=/usr"
 
 if [ "${cmplr}" == "gnu" ]; then
   export CC=`which gcc`
