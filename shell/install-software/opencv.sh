@@ -1,39 +1,41 @@
 #!/bin/bash
 #===============================================================================
-# To install eigen.
+# To install OpenCV.
 #
 # Author: Tche L., USTC, seistche@gmail.com
-# Created at: Wed 09 Jun 2021 12:19:34 PM CST
+# Created at: Thu 28 Apr 2022 09:33:38 AM CST
 #-------------------------------------------------------------------------------
 
 set -e
 # set -x
 
-ver=3.3.9
+ver=4.5.5
 
-prefix="${HOME}/software/eigen-${ver%.*}"
-options=
+prefix="${HOME}/software/opencv-${ver%.*}"
+
+export CC=`which gcc`
+export CXX=`which g++`
 
 #===============================================================================
 # download
-wget https://gitlab.com/libeigen/eigen/-/archive/${ver}/eigen-${ver}.tar.gz
+wget https://github.com/opencv/opencv/archive/${ver}.zip -O opencv-${ver}.zip
 
 # unzip
-tar -zpxvf eigen-${ver}.tar.gz
+unzip opencv-${ver}
 
 # prepare
-cd eigen-${ver}
-mkdir mybuild
-cd mybuild
-cmake ../ -DCMAKE_INSTALL_PREFIX=${prefix} \
-  -DINCLUDE_INSTALL_DIR=include/ ${options}
+cd opencv-${ver}
 yon=
 
 # install
 echo "================================================================================"
-read -p ">> Ensure to start installing eigen-${ver}? [Y/n]: " -t 30 yon
+read -p ">> Ensure to start installing opencv-${ver}? [Y/n]: " -t 30 yon
 if [ "${yon}" == "Y" ]; then
-  make -j
+  mkdir -p mybuild
+  cd mybuild
+
+  cmake -DCMAKE_INSTALL_PREFIX=${prefix} ..
+  cmake --build .
   make install
 else
   echo ">> Nothing to be installed!"
@@ -41,6 +43,6 @@ fi
 
 # epilogue
 echo "================================================================================"
-echo ">> Finish to install eigen-${ver}. \\(^.^)/"
+echo ">> Finish to install opencv-${ver}. \\(^.^)/"
 echo "================================================================================"
 

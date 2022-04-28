@@ -1,39 +1,42 @@
 #!/bin/bash
 #===============================================================================
-# To install eigen.
+# To install QuaZIP.
 #
 # Author: Tche L., USTC, seistche@gmail.com
-# Created at: Wed 09 Jun 2021 12:19:34 PM CST
+# Created at: Thu 28 Apr 2022 10:57:35 AM CST
 #-------------------------------------------------------------------------------
 
 set -e
 # set -x
 
-ver=3.3.9
+ver=1.3
 
-prefix="${HOME}/software/eigen-${ver%.*}"
-options=
+prefix="${HOME}/software/quazip-${ver}"
+
+export CC=`which gcc`
+export CXX=`which g++`
 
 #===============================================================================
 # download
-wget https://gitlab.com/libeigen/eigen/-/archive/${ver}/eigen-${ver}.tar.gz
+wget https://github.com/stachenov/quazip/archive/refs/tags/v${ver}.tar.gz \
+  -O quazip-${ver}.tar.gz
 
 # unzip
-tar -zpxvf eigen-${ver}.tar.gz
+tar -zpxvf quazip-${ver}.tar.gz
 
 # prepare
-cd eigen-${ver}
-mkdir mybuild
-cd mybuild
-cmake ../ -DCMAKE_INSTALL_PREFIX=${prefix} \
-  -DINCLUDE_INSTALL_DIR=include/ ${options}
+cd quazip-${ver}
 yon=
 
 # install
 echo "================================================================================"
-read -p ">> Ensure to start installing eigen-${ver}? [Y/n]: " -t 30 yon
+read -p ">> Ensure to start installing quazip-${ver}? [Y/n]: " -t 30 yon
 if [ "${yon}" == "Y" ]; then
-  make -j
+  mkdir -p mybuild
+  cd mybuild
+
+  cmake -DCMAKE_INSTALL_PREFIX=${prefix} ..
+  make -j4
   make install
 else
   echo ">> Nothing to be installed!"
@@ -41,6 +44,6 @@ fi
 
 # epilogue
 echo "================================================================================"
-echo ">> Finish to install eigen-${ver}. \\(^.^)/"
+echo ">> Finish to install quazip-${ver}. \\(^.^)/"
 echo "================================================================================"
 

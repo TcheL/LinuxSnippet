@@ -41,10 +41,10 @@ cd mybuild
 yon=
 
 # install
-gmake
 echo "================================================================================"
 read -p ">> Ensure to start installing cmake-${ver}? [Y/n]: " -t 30 yon
 if [ "${yon}" == "Y" ]; then
+  gmake
   make -j
   make install
 else

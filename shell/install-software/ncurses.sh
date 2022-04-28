@@ -1,6 +1,6 @@
 #!/bin/bash
 #===============================================================================
-# To install ncurses
+# To install ncurses.
 #
 # Author: Tche L., USTC, seistche@gmail.com
 # Created at: Thu 29 Jul 2021 10:15:32 AM CST
